@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class ProdutosDAO {
 
@@ -27,8 +28,10 @@ public class ProdutosDAO {
             prep.setInt(2, p.getValor());
             prep.setString(3, p.getStatus());
             prep.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro ao salvar produto: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar:");
         }
 
     }
