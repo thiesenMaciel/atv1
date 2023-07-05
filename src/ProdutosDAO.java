@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ProdutosDAO {
@@ -36,9 +37,27 @@ public class ProdutosDAO {
 
     }
 
-    public ArrayList<ProdutosDTO> listarProdutos() {
+    public List<ProdutosDTO> listarProdutos() {
+        String sql = "select * from produtos";
 
-        return listagem;
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            List<ProdutosDTO> lista = new ArrayList<>();
+            //verificar se a consulta encontrou o funcionário com a matrícula informada
+            while (rs.next()) { // se encontrou o funcionário, vamos carregar os dados
+                ProdutosDTO p = new ProdutosDTO();
+                p.setId(rs.getInt("ID"));
+                p.setNome(rs.getString("Nome"));
+                p.setValor(rs.getInt("Valor"));
+                p.setStatus(rs.getString("Status"));
+                lista.add(p);
+            }
+            return lista;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao conectar no listarProdutos: " + ex.getMessage());
+            return null;
+        }
     }
 
 }
