@@ -1,42 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Adm
- */
 
 import java.sql.PreparedStatement;
 import java.sql.Connection;
-import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 public class ProdutosDAO {
-    
-    Connection conn;
-    PreparedStatement prep;
-    ResultSet resultset;
+
+    private conectaDAO conecta;
+    private Connection conn;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
-    
-    public void cadastrarProduto (ProdutosDTO produto){
-        
-        
-        //conn = new conectaDAO().connectDB();
-        
-        
+
+    public ProdutosDAO() {
+        this.conecta = new conectaDAO();
+        this.conn = this.conecta.connectDB();
     }
-    
-    public ArrayList<ProdutosDTO> listarProdutos(){
-        
+
+    public void cadastrarProduto(ProdutosDTO p) {
+        conn = new conectaDAO().connectDB();
+
+        String sql = "INSERT INTO produtos ( nome, valor, status)VALUES(?,?,?)";
+        try {
+            PreparedStatement prep = this.conn.prepareStatement(sql);
+            //prep.setInt(1, p.getId());
+            prep.setString(1, p.getNome());
+            prep.setInt(2, p.getValor());
+            prep.setString(3, p.getStatus());
+            prep.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Erro ao salvar produto: " + e.getMessage());
+        }
+
+    }
+
+    public ArrayList<ProdutosDTO> listarProdutos() {
+
         return listagem;
     }
-    
-    
-    
-        
-}
 
+}
