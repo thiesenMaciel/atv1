@@ -60,4 +60,23 @@ public class ProdutosDAO {
         }
     }
 
+    public void venderProduto(int id) {
+        //string sql com o código de update para o banco de dados
+        String sql = "UPDATE produtos SET status=? WHERE id=?";
+        try {
+            //esse trecho é igual ao método inserir
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ProdutosDTO p = new ProdutosDTO();
+            //Setando os parâmetros
+            stmt.setString(1, "Vendido");
+            stmt.setInt(2, id);
+            //Executando a query
+            stmt.execute();
+            //tratando o erro, caso ele ocorra
+        } catch (Exception e) {
+            System.out.println("erro no vender produto: " + e.getMessage());
+        }
+    }
+
 }
