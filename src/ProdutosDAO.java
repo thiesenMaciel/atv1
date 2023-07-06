@@ -79,26 +79,25 @@ public class ProdutosDAO {
         }
     }
 
-    public ProdutosDTO listarProdutosVendidos(String status) {
+    public List<ProdutosDTO> listarProdutosVendidos() {
         String sql = "SELECT * FROM produtos WHERE status LIKE ?";
+        String status = "vendido";
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
-            status = "vendido";
             stmt.setString(1, status);
-
             ResultSet rs = stmt.executeQuery();
-
-            ProdutosDTO p = new ProdutosDTO();
-            rs.next();
-
-            p.setId(rs.getInt("ID"));
-            p.setNome(rs.getString("Nome"));
-            p.setValor(rs.getInt("Valor"));
-            p.setStatus(rs.getString(status));
-            p.setStatus(rs.getString("Status"));
-
-            return p;
-
+            List<ProdutosDTO> lista = new ArrayList<>();
+            //verificar se a consulta encontrou o funcionário com a matrícula informada
+            while (rs.next()) { // se encontrou o funcionário, vamos carregar os dados
+                ProdutosDTO p = new ProdutosDTO();
+                p.setId(rs.getInt("ID"));
+                p.setNome(rs.getString("Nome"));
+                p.setValor(rs.getInt("Valor"));
+                p.setStatus(status);
+                //p.setStatus(rs.getString("Status"));
+                lista.add(p);
+            }
+            return lista;
             //tratando o erro, caso ele ocorra
         } catch (Exception e) {
             System.out.println("erro: " + e.getMessage());

@@ -148,9 +148,6 @@ public class cadastroVIEW extends javax.swing.JFrame {
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
         listagemVIEW listagem = new listagemVIEW(); 
         listagem.setVisible(true);
-        ProdutosDTO p = null;
-        ProdutosDAO dao = null;
-        System.out.println(dao.listarProdutosVendidos(p.getStatus()));
     }//GEN-LAST:event_btnProdutosActionPerformed
 
     /**
